@@ -4,12 +4,12 @@ let cleanData=[];
 let numRows;
 
 function preload(){
-    data = loadTable("data/disability.csv", "csv", "header");
+    data = loadTable("data/disabilityShortNames.csv", "csv", "header");
 }
 
 function setup(){
     background(50)
-    createCanvas(1500,900)
+    createCanvas(1500,1200)
     angleMode(DEGREES);
     noLoop();
 
@@ -38,18 +38,44 @@ function setup(){
         title: "# of people with disabilities by extent",
         xValue: "Type",
         yValues: ["Some_Extent", "Great_Extent"],
-        xPos: 600,
+        xPos: 750,
         yPos: 350,
+        labelTextSize: 12,
+        labelRotation: 40,
+    }
+
+    let barChart03 = {
+        data: cleanData,
+        horizontal: true,
+        title: "# of people with disabilities",
+        xValue: "Type",
+        yValues: ["Any_Extent"],
+        xPos: 200,
+        yPos: 900,
+        labelTextSize: 12,
+        labelRotation: 40,
+    }
+
+    let barChart04 = {
+        data: cleanData,
+        horizontal: true,
+        title: "# of people with disabilities by extent",
+        xValue: "Type",
+        yValues: ["Some_Extent", "Great_Extent"],
+        xPos: 750,
+        yPos: 900,
         labelTextSize: 12,
         labelRotation: 40,
     }
 
     barCharts.push(new BarChart(barChart01));
     barCharts.push(new BarChart(barChart02));
+    barCharts.push(new BarChart(barChart03));
+    barCharts.push(new BarChart(barChart04));
 }
 
 function draw() {
-    background(50);
+    background(0);
     barCharts.forEach(chart => chart.render());
 }
 

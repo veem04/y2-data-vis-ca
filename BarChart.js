@@ -2,7 +2,8 @@ class BarChart{
     constructor(obj){
         // This defines the default values for if values aren't given
         const defaults = {
-            chartType: "default",
+            horizontal: false,
+            fullBar: false,
             title: "Chart title",
             titleSize: 16,
             chartWidth: 300,
@@ -22,7 +23,8 @@ class BarChart{
         // It assigns the default values, then overwrites them with the user's values where provided
         let opts = Object.assign({}, defaults, obj);
         this.data = opts.data;
-        this.chartType = opts.chartType;
+        this.horizontal = opts.horizontal;
+        this.fullBar = opts.fullBar;
         this.title = opts.title;
         this.titleSize = opts.titleSize;
         this.xValue = opts.xValue;
@@ -45,6 +47,7 @@ class BarChart{
         push();
         translate (this.xPos,this.yPos);
         stroke(this.axisLineColour)
+        
         line(0,0,0,-this.chartHeight);
         line(0,0,this.chartWidth,0);
 
@@ -65,16 +68,22 @@ class BarChart{
         let scale = this.chartHeight / maxValue
 
         push();
-        translate(gap,0);
+
+        this.horizontal ? translate(0, -gap) : translate(gap, 0);
         for(let i=0; i<this.data.length; i++){
             // bars
-            // fill("#FFFFFF");
             noStroke();
             push();
+            fill(this.barColours[i % this.barColours.length]);
             for(let j=0; j<this.yValues.length; j++){
-                fill(this.barColours[j % this.barColours.length])
-                rect(0,0,this.barWidth,-this.data[i][this.yValues[j]]*scale);
-                translate(0,-this.data[i][this.yValues[j]]*scale)
+                this.yValues.length > 1 ? fill(this.barColours[j % this.barColours.length]) : ''                
+                if(this.horizontal){
+                    rect(0,0,this.data[i][this.yValues[j]]*scale,-this.barWidth);
+                    translate(this.data[i][this.yValues[j]]*scale,0);
+                }else{
+                    rect(0,0,this.barWidth,-this.data[i][this.yValues[j]]*scale);
+                    translate(0,-this.data[i][this.yValues[j]]*scale);
+                }
             }
             pop();
 
@@ -84,33 +93,56 @@ class BarChart{
             fill(this.labelColour);
             noStroke();
             textSize(this.labelTextSize);
-            textAlign(LEFT, CENTER);
             push();
-            translate(this.barWidth/2,this.labelPadding);
-            rotate(this.labelRotation);
+            
+            if(this.horizontal){
+                translate(-this.labelPadding, -this.barWidth/2);
+                textAlign(RIGHT, CENTER);
+                rotate(-this.labelRotation);
+            }else{
+                translate(this.barWidth/2,this.labelPadding);
+                textAlign(LEFT, CENTER);
+                rotate(this.labelRotation);
+            }
+            
             text(labels[i],0,0)
             pop();
             
-            translate(gap+this.barWidth,0);
+            this.horizontal ? translate(0, -gap-this.barWidth) : translate(gap+this.barWidth,0);
         }
         pop();
         
-        let tickGap = this.chartHeight / 5;
+
+        let tickGap = (this.horizontal) ? this.chartWidth/5 : this.chartHeight/5;
         let tickValue = maxValue/5
 
         // this draws the vertical elements
         for(let i=0;i<=5;i++){
             stroke(this.axisLineColour)
-            line(0,-(i*tickGap),-10,-(i*tickGap));
-
-            stroke(this.gridLineColour);
-            line(0,-(i*tickGap),this.chartWidth,-(i*tickGap))
-
             fill(this.labelColour);
-            noStroke();
             textSize(this.labelTextSize);
-            textAlign(RIGHT, CENTER);
-            text(Math.round(tickValue*i*10,)/10,-15,-(i*tickGap))
+            
+            if(this.horizontal){
+                line((i*tickGap),0,(i*tickGap),10);
+                stroke(this.gridLineColour);
+                line((i*tickGap),0,(i*tickGap),-this.chartHeight)
+                noStroke();
+                textAlign(CENTER);
+                text(Math.round(tickValue*i*10,)/10,(i*tickGap),25)
+            }else{
+                line(0,-(i*tickGap),-10,-(i*tickGap));
+                stroke(this.gridLineColour);
+                line(0,-(i*tickGap),this.chartWidth,-(i*tickGap))
+                noStroke();
+                textAlign(RIGHT, CENTER);
+                text(Math.round(tickValue*i*10,)/10,-15,-(i*tickGap))
+            }
+
+            
+            
+
+            
+            
         }
         
         // title display
