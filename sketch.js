@@ -19,50 +19,37 @@ function setup(){
     }
     console.log(cleanData);
 
-    const groupedData = Object.groupBy(cleanData, ({ Label }) => Label);
-    console.log(groupedData);
 
-
-
-    // function getAverages(data){
-    //     let dataWithAvgs = [];
-    //     for(const [key] of Object.entries(data)){
-    //         let sum = data[key].reduce(
-    //             (accumulator, val) => accumulator + +val.VALUE, 0
-    //         );
-    //         avg = sum / data[key].length;
-    //         dataWithAvgs.push({
-    //             Reason: key,
-    //             Total: avg,
-    //         });
-    //     }
-    //     return dataWithAvgs;
-    // }
-
-    // const groupedData01 = Object.groupBy(cleanData, ({ Reason }) => Reason);
-    // const dataWithAvgs = getAverages(groupedData01);
-
-    // let barChart01 = {
-    //     data: dataWithAvgs,
-    //     xValue: "Reason",
-    //     yValue: ["Total"],
-    //     xPos: 75,
-    //     yPos: 350,
-    //     labelTextSize: 14,
-    //     labelRotation: 35,
-    // }
+    let barChart01 = {
+        data: cleanData,
+        title: "# of people with disabilities",
+        xValue: "Type",
+        yValues: ["Any_Extent"],
+        xPos: 75,
+        yPos: 350,
+        labelTextSize: 12,
+        labelRotation: 40,
+    }
 
     
 
-    // let barChart02 = {
+    let barChart02 = {
+        data: cleanData,
+        title: "# of people with disabilities by extent",
+        xValue: "Type",
+        yValues: ["Some_Extent", "Great_Extent"],
+        xPos: 600,
+        yPos: 350,
+        labelTextSize: 12,
+        labelRotation: 40,
+    }
 
-    // }
-
-    // barCharts.push(new BarChart(barChart01));
+    barCharts.push(new BarChart(barChart01));
+    barCharts.push(new BarChart(barChart02));
 }
 
 function draw() {
     background(50);
-    // barCharts.forEach(chart => chart.render());
+    barCharts.forEach(chart => chart.render());
 }
 
