@@ -27,6 +27,7 @@ function setup(){
         yValues: ["Any_Extent"],
         xPos: 75,
         yPos: 350,
+        chartWidth:400,
         labelTextSize: 12,
         labelRotation: 40,
     }
@@ -38,8 +39,9 @@ function setup(){
         title: "# of people with disabilities by extent",
         xValue: "Type",
         yValues: ["Some_Extent", "Great_Extent"],
-        xPos: 750,
-        yPos: 350,
+        xPos: 600,
+        yPos: 450,
+        chartHeight: 400,
         labelTextSize: 12,
         labelRotation: 40,
     }
@@ -51,7 +53,8 @@ function setup(){
         xValue: "Type",
         yValues: ["Any_Extent"],
         xPos: 200,
-        yPos: 900,
+        yPos: 1000,
+        chartHeight: 400,
         labelTextSize: 12,
         labelRotation: 40,
     }
@@ -63,7 +66,8 @@ function setup(){
         xValue: "Type",
         yValues: ["Some_Extent", "Great_Extent"],
         xPos: 750,
-        yPos: 900,
+        yPos: 1000,
+        chartWidth: 400,
         labelTextSize: 12,
         labelRotation: 40,
     }

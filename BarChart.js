@@ -13,7 +13,7 @@ class BarChart{
             labelPadding: 10,
             labelColour: "#FFFFFF",
             labelRotation: 45,
-            barWidth: ((obj.chartWidth || 300) / obj.data.length) * (2/3),
+            barWidth: !obj.horizontal ? ((obj.chartWidth || 300) / obj.data.length) * (2/3) : ((obj.chartHeight || 300) / obj.data.length) * (2/3),
             barColours: ["#e54537", "#4ee537", "#37dce5", "#c537e5"],
             gridLineColour: "#666666",
         }
@@ -51,7 +51,7 @@ class BarChart{
         line(0,0,0,-this.chartHeight);
         line(0,0,this.chartWidth,0);
 
-        let gap = (this.chartWidth - (this.data.length * this.barWidth))/(this.data.length +1)
+        let gap = !this.horizontal ? (this.chartWidth - (this.data.length * this.barWidth))/(this.data.length +1) : (this.chartHeight - (this.data.length * this.barWidth))/(this.data.length +1)
         let labels = this.data.map(d => d[this.xValue]);
 
         let totalValues = [];
@@ -65,7 +65,7 @@ class BarChart{
         console.log(totalValues);
 
         let maxValue = max(totalValues);
-        let scale = this.chartHeight / maxValue
+        let scale = this.horizontal ? this.chartWidth / maxValue : this.chartHeight / maxValue
 
         push();
 
@@ -75,6 +75,7 @@ class BarChart{
             noStroke();
             push();
             fill(this.barColours[i % this.barColours.length]);
+
             for(let j=0; j<this.yValues.length; j++){
                 this.yValues.length > 1 ? fill(this.barColours[j % this.barColours.length]) : ''                
                 if(this.horizontal){
@@ -117,7 +118,7 @@ class BarChart{
         let tickValue = maxValue/5
 
         // this draws the vertical elements
-        for(let i=0;i<=5;i++){
+        for(let i=1;i<=5;i++){
             stroke(this.axisLineColour)
             fill(this.labelColour);
             textSize(this.labelTextSize);
