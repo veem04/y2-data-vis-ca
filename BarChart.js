@@ -16,6 +16,10 @@ class BarChart{
             barWidth: !obj.horizontal ? ((obj.chartWidth || 300) / obj.data.length) * (2/3) : ((obj.chartHeight || 300) / obj.data.length) * (2/3),
             barColours: ["#e54537", "#4ee537", "#37dce5", "#c537e5"],
             gridLineColour: "#666666",
+            numOfTicks: 5,
+            legendTextSize: 16,
+            legendTextColour: "#FFFFFF",
+            legendPadding: 30,
         }
         
         // https://stackoverflow.com/questions/46496245/how-to-supply-default-values-to-es6-class-properties
@@ -41,6 +45,10 @@ class BarChart{
         this.barWidth = opts.barWidth;
         this.barColours = opts.barColours;
         this.gridLineColour = opts.gridLineColour;
+        this.numOfTicks = opts.numOfTicks;
+        this.legendTextSize = opts.legendTextSize;
+        this.legendTextColour = opts.legendTextColour;
+        this.legendPadding = opts.legendPadding;
     }
 
     render(){
@@ -75,6 +83,10 @@ class BarChart{
             noStroke();
             push();
             fill(this.barColours[i % this.barColours.length]);
+
+            if(this.fullBar){
+                scale = this.chartHeight / totalValues[i];
+            }
 
             for(let j=0; j<this.yValues.length; j++){
                 this.yValues.length > 1 ? fill(this.barColours[j % this.barColours.length]) : ''                
@@ -115,7 +127,7 @@ class BarChart{
         
 
         let tickGap = (this.horizontal) ? this.chartWidth/5 : this.chartHeight/5;
-        let tickValue = maxValue/5
+        let tickValue = (this.fullBar) ? 100/this.numOfTicks : maxValue/this.numOfTicks;
 
         // this draws the vertical elements
         for(let i=1;i<=5;i++){
@@ -129,20 +141,17 @@ class BarChart{
                 line((i*tickGap),0,(i*tickGap),-this.chartHeight)
                 noStroke();
                 textAlign(CENTER);
-                text(Math.round(tickValue*i*10,)/10,(i*tickGap),25)
+
+                (this.fullBar) ? text(Math.round(tickValue*i*10,)/10+"%",(i*tickGap),25) : text(Math.round(tickValue*i*10,)/10,(i*tickGap),25)
             }else{
                 line(0,-(i*tickGap),-10,-(i*tickGap));
                 stroke(this.gridLineColour);
                 line(0,-(i*tickGap),this.chartWidth,-(i*tickGap))
                 noStroke();
                 textAlign(RIGHT, CENTER);
-                text(Math.round(tickValue*i*10,)/10,-15,-(i*tickGap))
+
+                (this.fullBar) ? text(Math.round(tickValue*i*10,)/10+"%",-15,-(i*tickGap)) : text(Math.round(tickValue*i*10,)/10,-15,-(i*tickGap))
             }
-
-            
-            
-
-            
             
         }
         
@@ -155,6 +164,22 @@ class BarChart{
         pop();
 
         // legend display
+        if(this.yValues.length > 1){
+            translate(this.chartWidth+this.legendPadding, -this.chartHeight/2);
+            textSize(this.legendTextSize);
+            textAlign(LEFT, CENTER);
+            rectMode(CENTER);
+            let len = this.yValues.length;
+            // let len = 5;
+            for(let i=0;i<len;i++){
+                fill(this.barColours[i % this.barColours.length]);
+                let yOffset = (((len-1)/-2)+i)*this.legendTextSize*2;
+                console.log(yOffset)
+                rect(0, yOffset, this.legendTextSize, this.legendTextSize);
+                fill(this.legendTextColour);
+                text(this.yValues[i], this.legendTextSize, yOffset);
+            }
+        }
 
         pop();
     }

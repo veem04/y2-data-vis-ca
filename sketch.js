@@ -8,8 +8,8 @@ function preload(){
 }
 
 function setup(){
-    background(50)
-    createCanvas(1500,1200)
+    background(50);
+    createCanvas(2000,1200)
     angleMode(DEGREES);
     noLoop();
 
@@ -39,7 +39,7 @@ function setup(){
         title: "# of people with disabilities by extent",
         xValue: "Type",
         yValues: ["Some_Extent", "Great_Extent"],
-        xPos: 600,
+        xPos: 800,
         yPos: 450,
         chartHeight: 400,
         labelTextSize: 12,
@@ -72,14 +72,42 @@ function setup(){
         labelRotation: 40,
     }
 
+    let barChart05 = {
+        data: cleanData,
+        fullBar: true,
+        title: "# of people with disabilities by extent",
+        xValue: "Type",
+        yValues: ["Some_Extent", "Great_Extent"],
+        xPos: 1500,
+        yPos: 400,
+        labelTextSize: 12,
+        labelRotation: 40,
+    }
+
+    let barChart06 = {
+        data: cleanData,
+        horizontal: true,
+        fullBar: true,
+        title: "# of people with disabilities by extent",
+        xValue: "Type",
+        yValues: ["Some_Extent", "Great_Extent"],
+        xPos: 1500,
+        yPos: 1000,
+        labelTextSize: 12,
+        labelRotation: 40,
+    }
+
     barCharts.push(new BarChart(barChart01));
     barCharts.push(new BarChart(barChart02));
     barCharts.push(new BarChart(barChart03));
     barCharts.push(new BarChart(barChart04));
+    barCharts.push(new BarChart(barChart05));
+    barCharts.push(new BarChart(barChart06));
+
 }
 
 function draw() {
-    background(0);
+    background(20);
     barCharts.forEach(chart => chart.render());
 }
 
