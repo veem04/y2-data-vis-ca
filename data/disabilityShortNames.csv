@@ -1,12 +1,12 @@
-﻿Statistic,Type,Some_Extent,Great_Extent,Any_Extent
-People with a disability unemployed,Blindness or vision impairment,11433,1315,12748
-People with a disability unemployed,Deafness or hearing impairment,5000,1229,6229
-People with a disability unemployed,Basic physical activities,9602,2856,12458
-People with a disability unemployed,An intellectual disability,3762,1516,5278
-People with a disability unemployed,"Learning, remembering or concentrating",10240,2339,12579
-People with a disability unemployed,"Psychological, emotional, mental health",14956,5854,20810
-People with a disability unemployed,"Chronic illness",13886,5578,19464
-People with a disability unemployed,"Difficulty inside home",3561,1439,5000
-People with a disability unemployed,Difficulty going outside the home,6106,2433,8539
-People with a disability unemployed,Difficulty working,11395,6583,17978
-People with a disability unemployed,Difficulty in other activities,9725,4258,13983
+﻿Type,Some_Extent,Great_Extent,Any_Extent
+Blindness or vision impairment,11433,1315,12748
+Deafness or hearing impairment,5000,1229,6229
+Basic physical activities,9602,2856,12458
+An intellectual disability,3762,1516,5278
+"Learning, remembering or concentrating",10240,2339,12579
+"Psychological, emotional, mental health",14956,5854,20810
+Chronic illness,13886,5578,19464
+Difficulty inside home,3561,1439,5000
+Difficulty going outside the home,6106,2433,8539
+Difficulty working,11395,6583,17978
+Difficulty in other activities,9725,4258,13983

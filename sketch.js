@@ -1,4 +1,5 @@
 let barCharts = [];
+let pieCharts = [];
 let data;
 let cleanData=[];
 let numRows;
@@ -9,7 +10,7 @@ function preload(){
 
 function setup(){
     background(50);
-    createCanvas(2000,1200)
+    createCanvas(2600,1200)
     angleMode(DEGREES);
     noLoop();
 
@@ -104,10 +105,21 @@ function setup(){
     barCharts.push(new BarChart(barChart05));
     barCharts.push(new BarChart(barChart06));
 
+    let pieChart = {
+        data: cleanData,
+        title: "Extent of disabilities",
+        values: ["Some_Extent", "Great_Extent"],
+        xPos: 2150,
+        yPos: 500,
+    }
+
+    pieCharts.push(new PieChart(pieChart));
 }
 
 function draw() {
-    background(20);
+    background(0);
     barCharts.forEach(chart => chart.render());
+    pieCharts.forEach(chart => chart.render());
+    
 }
 
