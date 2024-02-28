@@ -36,6 +36,7 @@ class PieChart {
         this.legendTextSize = opts.legendTextSize;
         this.legendTextColour = opts.legendTextColour;
         this.legendPadding = opts.legendPadding;
+        this.font = opts.font;
     }
 
     render(){
@@ -52,6 +53,8 @@ class PieChart {
         // console.log(sum);
         let arcs = totals.map(val => (val/sum)*360);
         // console.log(arcs);
+
+        textFont(font);
 
         let startPos = 0
         for(let i=0;i<arcs.length;i++){

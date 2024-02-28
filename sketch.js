@@ -5,10 +5,12 @@ let cleanData=[];
 let cleanData2 = [];
 let numRows;
 let numRows2;
+let font;
 
 function preload(){
     data = loadTable("data/disabilityShortNames.csv", "csv", "header");
     data2 = loadTable("data/difficulties.csv", "csv", "header");
+    font = loadFont("fonts/Ubuntu-Regular.ttf");
 }
 
 function setup(){
@@ -41,7 +43,8 @@ function setup(){
         chartWidth:400,
         labelTextSize: 12,
         labelRotation: 40,
-        barColours: ["#B5FFE1","#93E5AB","#65B891","#4E878C"]
+        barColours: ["#B5FFE1","#93E5AB","#65B891","#4E878C"],
+        font: font,
     }
 
     
@@ -56,8 +59,10 @@ function setup(){
         yPos: 475,
         chartHeight: 400,
         barLineThickness: 2,
+        barLineColour: "#F9F",
         labelTextSize: 12,
         labelRotation: 40,
+        font: font,
     }
 
     let barChart03 = {
@@ -71,7 +76,8 @@ function setup(){
         chartHeight: 400,
         labelTextSize: 12,
         labelRotation: 40,
-        barColours: ["#FDE8E9","#E3BAC6","#BC9EC1","#8BAAAD"]
+        barColours: ["#FDE8E9","#E3BAC6","#BC9EC1","#8BAAAD"],
+        font: font,
     }
 
     let barChart04 = {
@@ -87,6 +93,7 @@ function setup(){
         labelTextSize: 12,
         labelRotation: 40,
         barColours: ["#D9D0DE", "#BC8DA0"],
+        font: font,
     }
 
     let barChart05 = {
@@ -101,6 +108,7 @@ function setup(){
         labelRotation: 40,
         barColours: ["#00BFB2", "#1A5E63"],
         barLineThickness: 3,
+        font: font,
     }
 
     let barChart06 = {
@@ -115,6 +123,7 @@ function setup(){
         labelTextSize: 12,
         labelRotation: 40,
         barColours: ["#91A6FF", "#FF88DC"],
+        font: font,
     }
 
     barCharts.push(new BarChart(barChart01));
@@ -131,7 +140,8 @@ function setup(){
         values: ["Some Extent", "Great Extent"],
         xPos: 2150,
         yPos: 500,
-        sliceColours: ["#5B507A", "#9AC6C5"]
+        sliceColours: ["#5B507A", "#9AC6C5"],
+        font: font,
     }
 
     pieCharts.push(new PieChart(pieChart));

@@ -18,6 +18,7 @@ class BarChart{
             barWidth: !obj.horizontal ? ((obj.chartWidth || 300) / obj.data.length) * (2/3) : ((obj.chartHeight || 300) / obj.data.length) * (2/3),
             barColours: ["#e54537", "#4ee537", "#37dce5", "#c537e5"],
             barLineThickness: 0,
+            barLineColour: "#FFFFFF",
             gridLineColour: "#666666",
             numOfTicks: 5,
             legendTextSize: 16,
@@ -50,11 +51,13 @@ class BarChart{
         this.barWidth = opts.barWidth;
         this.barColours = opts.barColours;
         this.barLineThickness = opts.barLineThickness;
+        this.barLineColour = opts.barLineColour;
         this.gridLineColour = opts.gridLineColour;
         this.numOfTicks = opts.numOfTicks;
         this.legendTextSize = opts.legendTextSize;
         this.legendTextColour = opts.legendTextColour;
         this.legendPadding = opts.legendPadding;
+        this.font = opts.font;
     }
 
     render(){
@@ -81,6 +84,8 @@ class BarChart{
         let maxValue = max(totalValues);
         let scale = this.horizontal ? this.chartWidth / maxValue : this.chartHeight / maxValue
     
+        textFont(this.font);
+
         push();
 
         this.horizontal ? translate(0, -gap) : translate(gap, 0);
@@ -89,7 +94,7 @@ class BarChart{
             // noStroke();
             push();
             fill(this.barColours[i % this.barColours.length]);
-            stroke(255)
+            stroke(this.barLineColour);
             strokeWeight(this.barLineThickness);
 
             if(this.fullBar){
@@ -114,6 +119,7 @@ class BarChart{
             fill(this.labelColour);
             noStroke();
             textSize(this.labelTextSize);
+            
             push();
             
             if(this.horizontal){
