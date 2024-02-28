@@ -4,6 +4,7 @@ class BarChart{
         const defaults = {
             horizontal: false,
             fullBar: false,
+            stacked: obj.fullBar ? true : false,
             title: "Chart title",
             titleSize: 24,
             titleXOffset: 0,
@@ -33,6 +34,7 @@ class BarChart{
         this.data = opts.data;
         this.horizontal = opts.horizontal;
         this.fullBar = opts.fullBar;
+        this.stacked = opts.stacked;
         this.title = opts.title;
         this.titleSize = opts.titleSize;
         this.titleXOffset = opts.titleXOffset;
@@ -61,6 +63,11 @@ class BarChart{
     }
 
     render(){
+        if(!this.stacked && this.fullBar){
+            console.warn("Clustered chart is incompatible with 100% chart! Unexpected issues may arise.");
+        }
+
+
         push();
         translate (this.xPos,this.yPos);
         stroke(this.axisLineColour)
@@ -72,14 +79,26 @@ class BarChart{
         let labels = this.data.map(d => d[this.xValue]);
 
         let totalValues = [];
-        this.data.forEach(row => {
-            let sum = 0;
-            this.yValues.forEach(y => {
-                sum += +row[y];
-            })
-            totalValues.push(sum)
-        });
+        if(this.stacked){
+            this.data.forEach(row => {
+                let sum = 0;
+                this.yValues.forEach(y => {
+                    sum += +row[y];
+                })
+                totalValues.push(sum)
+            });
+        }else{
+            this.data.forEach(row => {
+                this.yValues.forEach(y => {
+                    totalValues.push(+row[y]);
+                })
+            });
+        }
+        
         console.log(totalValues);
+
+        
+
 
         let maxValue = max(totalValues);
         let scale = this.horizontal ? this.chartWidth / maxValue : this.chartHeight / maxValue
@@ -102,13 +121,23 @@ class BarChart{
             }
 
             for(let j=0; j<this.yValues.length; j++){
-                this.yValues.length > 1 ? fill(this.barColours[j % this.barColours.length]) : ''                
-                if(this.horizontal){
-                    rect(0,0,this.data[i][this.yValues[j]]*scale,-this.barWidth);
-                    translate(this.data[i][this.yValues[j]]*scale,0);
+                this.yValues.length > 1 ? fill(this.barColours[j % this.barColours.length]) : ''
+                if(this.stacked){
+                    if(this.horizontal){
+                        rect(0,0,this.data[i][this.yValues[j]]*scale,-this.barWidth);
+                        translate(this.data[i][this.yValues[j]]*scale,0);
+                    }else{
+                        rect(0,0,this.barWidth,-this.data[i][this.yValues[j]]*scale);
+                        translate(0,-this.data[i][this.yValues[j]]*scale);
+                    }
                 }else{
-                    rect(0,0,this.barWidth,-this.data[i][this.yValues[j]]*scale);
-                    translate(0,-this.data[i][this.yValues[j]]*scale);
+                    if(this.horizontal){
+                        rect(0,0,this.data[i][this.yValues[j]]*scale,-this.barWidth/this.yValues.length);
+                        translate(0,-this.barWidth/this.yValues.length);
+                    }else{
+                        rect(0,0,this.barWidth/this.yValues.length,-this.data[i][this.yValues[j]]*scale);
+                        translate(this.barWidth/this.yValues.length,0);
+                    }
                 }
             }
             pop();

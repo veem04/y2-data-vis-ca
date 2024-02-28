@@ -51,6 +51,7 @@ function setup(){
 
     let barChart02 = {
         data: cleanData,
+        stacked: true,
         title: "# of people with disabilities by extent",
         titleYOffset: -10,
         xValue: "Type",
@@ -59,7 +60,7 @@ function setup(){
         yPos: 475,
         chartHeight: 400,
         barLineThickness: 2,
-        barLineColour: "#F9F",
+        barLineColour: "#888",
         labelTextSize: 12,
         labelRotation: 40,
         font: font,
