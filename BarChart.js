@@ -80,6 +80,7 @@ class BarChart{
 
         let totalValues = [];
         if(this.stacked){
+            // add the y values together and push to the array
             this.data.forEach(row => {
                 let sum = 0;
                 this.yValues.forEach(y => {
@@ -88,17 +89,13 @@ class BarChart{
                 totalValues.push(sum)
             });
         }else{
+            // push each of the y values individually
             this.data.forEach(row => {
                 this.yValues.forEach(y => {
                     totalValues.push(+row[y]);
                 })
             });
         }
-        
-        console.log(totalValues);
-
-        
-
 
         let maxValue = max(totalValues);
         let scale = this.horizontal ? this.chartWidth / maxValue : this.chartHeight / maxValue
@@ -108,9 +105,9 @@ class BarChart{
         push();
 
         this.horizontal ? translate(0, -gap) : translate(gap, 0);
+        let numYValues = this.yValues.length
         for(let i=0; i<this.data.length; i++){
             // bars
-            // noStroke();
             push();
             fill(this.barColours[i % this.barColours.length]);
             stroke(this.barLineColour);
@@ -120,23 +117,28 @@ class BarChart{
                 scale = this.chartHeight / totalValues[i];
             }
 
-            for(let j=0; j<this.yValues.length; j++){
-                this.yValues.length > 1 ? fill(this.barColours[j % this.barColours.length]) : ''
+            
+            for(let j=0; j<numYValues; j++){
+                numYValues > 1 ? fill(this.barColours[j % this.barColours.length]) : ''
                 if(this.stacked){
                     if(this.horizontal){
+                        // stacked horizontal bars
                         rect(0,0,this.data[i][this.yValues[j]]*scale,-this.barWidth);
                         translate(this.data[i][this.yValues[j]]*scale,0);
                     }else{
+                        // stacked vertical bars
                         rect(0,0,this.barWidth,-this.data[i][this.yValues[j]]*scale);
                         translate(0,-this.data[i][this.yValues[j]]*scale);
                     }
                 }else{
                     if(this.horizontal){
-                        rect(0,0,this.data[i][this.yValues[j]]*scale,-this.barWidth/this.yValues.length);
-                        translate(0,-this.barWidth/this.yValues.length);
+                        // clustered horizontal bars
+                        rect(0,0,this.data[i][this.yValues[j]]*scale,-this.barWidth/numYValues);
+                        translate(0,-this.barWidth/numYValues);
                     }else{
-                        rect(0,0,this.barWidth/this.yValues.length,-this.data[i][this.yValues[j]]*scale);
-                        translate(this.barWidth/this.yValues.length,0);
+                        // clustered vertical bars
+                        rect(0,0,this.barWidth/numYValues,-this.data[i][this.yValues[j]]*scale);
+                        translate(this.barWidth/numYValues,0);
                     }
                 }
             }
@@ -152,10 +154,12 @@ class BarChart{
             push();
             
             if(this.horizontal){
+                // horizontal labels
                 translate(-this.labelPadding, -this.barWidth/2);
                 textAlign(RIGHT, CENTER);
                 rotate(-this.labelRotation);
             }else{
+                // vertical labels
                 translate(this.barWidth/2,this.labelPadding);
                 textAlign(LEFT, CENTER);
                 rotate(this.labelRotation);
@@ -178,20 +182,24 @@ class BarChart{
             textSize(this.labelTextSize);
             
             if(this.horizontal){
+                // horizontal ticks
                 line((i*tickGap),0,(i*tickGap),10);
                 stroke(this.gridLineColour);
                 line((i*tickGap),0,(i*tickGap),-this.chartHeight)
                 noStroke();
                 textAlign(CENTER);
 
+                // ticks for 100% or regular
                 (this.fullBar) ? text(Math.round(tickValue*i*10,)/10+"%",(i*tickGap),25) : text(Math.round(tickValue*i*10,)/10,(i*tickGap),25)
             }else{
+                // vertical ticks
                 line(0,-(i*tickGap),-10,-(i*tickGap));
                 stroke(this.gridLineColour);
                 line(0,-(i*tickGap),this.chartWidth,-(i*tickGap))
                 noStroke();
                 textAlign(RIGHT, CENTER);
 
+                // ticks for 100% or regular
                 (this.fullBar) ? text(Math.round(tickValue*i*10,)/10+"%",-15,-(i*tickGap)) : text(Math.round(tickValue*i*10,)/10,-15,-(i*tickGap))
             }
             
@@ -206,23 +214,22 @@ class BarChart{
         pop();
 
         // legend display
-        if(this.yValues.length > 1){
+        if(numYValues > 1){
+            // translate to the right side of the chart
             translate(this.chartWidth+this.legendPadding, -this.chartHeight/2);
             textSize(this.legendTextSize);
             textAlign(LEFT, CENTER);
             rectMode(CENTER);
-            let len = this.yValues.length;
-            // let len = 5;
-            for(let i=0;i<len;i++){
+
+            for(let i=0;i<numYValues;i++){
                 fill(this.barColours[i % this.barColours.length]);
-                let yOffset = (((len-1)/-2)+i)*this.legendTextSize*2;
-                console.log(yOffset)
+                // offsets below or above zero depending on what the y value is
+                let yOffset = (((numYValues-1)/-2)+i)*this.legendTextSize*2;
                 rect(0, yOffset, this.legendTextSize, this.legendTextSize);
                 fill(this.legendTextColour);
                 text(this.yValues[i], this.legendTextSize, yOffset);
             }
         }
-
         pop();
     }
 }

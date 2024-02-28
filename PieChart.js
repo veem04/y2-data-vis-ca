@@ -46,13 +46,10 @@ class PieChart {
                 (acc, curVal) => acc + +curVal[val], 0
             ))
         })
-        // console.log(totals);
         let sum = totals.reduce(
             (acc, val) => acc + val, 0
         );
-        // console.log(sum);
         let arcs = totals.map(val => (val/sum)*360);
-        // console.log(arcs);
 
         textFont(font);
 
@@ -78,17 +75,14 @@ class PieChart {
         pop();
 
 
-        // translate(this.xPos, this.yPos)
         translate(this.chartWidth/2+this.legendPadding, 0);
         textSize(this.legendTextSize);
         textAlign(LEFT, CENTER);
         rectMode(CENTER);
         let len = totals.length;
-        // let len = 5;
         for(let i=0;i<len;i++){
             fill(this.sliceColours[i % this.sliceColours.length]);
             let yOffset = (((len-1)/-2)+i)*this.legendTextSize*2;
-            console.log(yOffset)
             rect(0, yOffset, this.legendTextSize, this.legendTextSize);
             fill(this.legendTextColour);
             text(this.values[i], this.legendTextSize, yOffset);
