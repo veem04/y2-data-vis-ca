@@ -3,7 +3,9 @@ class PieChart {
         // This defines the default values for if values aren't given
         const defaults = {
             title: "Chart title",
-            titleSize: 20,
+            titleSize: 24,
+            titleXOffset: 0,
+            titleYOffset: 0,
             chartWidth: 300,
             chartHeight: 300,
             sliceColours: ["#e54537", "#4ee537", "#37dce5", "#c537e5"],
@@ -21,6 +23,8 @@ class PieChart {
         this.data = opts.data;
         this.title = opts.title;
         this.titleSize = opts.titleSize;
+        this.titleXOffset = opts.titleXOffset;
+        this.titleYOffset = opts.titleYOffset;
         this.values = opts.values
         this.xPos = opts.xPos;
         this.yPos = opts.yPos;
@@ -61,12 +65,13 @@ class PieChart {
         translate(this.xPos,this.yPos)
         noStroke();
 
+        // title display
         push();
         translate(0,-this.chartHeight/2);
         textSize(this.titleSize);
         textAlign(CENTER)
         fill("#FFFFFF")
-        text(this.title, 0, -this.titleSize)
+        text(this.title, this.titleXOffset, -this.titleSize+this.titleYOffset)
         pop();
 
 

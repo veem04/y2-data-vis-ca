@@ -5,7 +5,9 @@ class BarChart{
             horizontal: false,
             fullBar: false,
             title: "Chart title",
-            titleSize: 16,
+            titleSize: 24,
+            titleXOffset: 0,
+            titleYOffset: 0,
             chartWidth: 300,
             chartHeight: 300,
             axisLineColour: "#FFFFFF",
@@ -15,6 +17,7 @@ class BarChart{
             labelRotation: 45,
             barWidth: !obj.horizontal ? ((obj.chartWidth || 300) / obj.data.length) * (2/3) : ((obj.chartHeight || 300) / obj.data.length) * (2/3),
             barColours: ["#e54537", "#4ee537", "#37dce5", "#c537e5"],
+            barLineThickness: 0,
             gridLineColour: "#666666",
             numOfTicks: 5,
             legendTextSize: 16,
@@ -31,6 +34,8 @@ class BarChart{
         this.fullBar = opts.fullBar;
         this.title = opts.title;
         this.titleSize = opts.titleSize;
+        this.titleXOffset = opts.titleXOffset;
+        this.titleYOffset = opts.titleYOffset;
         this.xValue = opts.xValue;
         this.yValues = opts.yValues;
         this.xPos = opts.xPos;
@@ -44,6 +49,7 @@ class BarChart{
         this.labelRotation = opts.labelRotation;
         this.barWidth = opts.barWidth;
         this.barColours = opts.barColours;
+        this.barLineThickness = opts.barLineThickness;
         this.gridLineColour = opts.gridLineColour;
         this.numOfTicks = opts.numOfTicks;
         this.legendTextSize = opts.legendTextSize;
@@ -74,15 +80,17 @@ class BarChart{
 
         let maxValue = max(totalValues);
         let scale = this.horizontal ? this.chartWidth / maxValue : this.chartHeight / maxValue
-
+    
         push();
 
         this.horizontal ? translate(0, -gap) : translate(gap, 0);
         for(let i=0; i<this.data.length; i++){
             // bars
-            noStroke();
+            // noStroke();
             push();
             fill(this.barColours[i % this.barColours.length]);
+            stroke(255)
+            strokeWeight(this.barLineThickness);
 
             if(this.fullBar){
                 scale = this.chartHeight / totalValues[i];
@@ -100,7 +108,7 @@ class BarChart{
             }
             pop();
 
-            
+
 
             // labels
             fill(this.labelColour);
@@ -117,7 +125,6 @@ class BarChart{
                 textAlign(LEFT, CENTER);
                 rotate(this.labelRotation);
             }
-            
             text(labels[i],0,0)
             pop();
             
@@ -160,7 +167,7 @@ class BarChart{
         translate(this.chartWidth/2,-this.chartHeight);
         textSize(this.titleSize);
         textAlign(CENTER)
-        text(this.title, 0, -this.titleSize)
+        text(this.title, this.titleXOffset, -this.titleSize+this.titleYOffset);
         pop();
 
         // legend display
