@@ -114,7 +114,7 @@ class BarChart{
             strokeWeight(this.barLineThickness);
 
             if(this.fullBar){
-                scale = this.chartHeight / totalValues[i];
+                scale = !this.horizontal ? this.chartHeight / totalValues[i] : this.chartWidth / totalValues[i];
             }
 
             
